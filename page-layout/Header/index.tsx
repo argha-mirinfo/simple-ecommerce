@@ -1,12 +1,13 @@
 import React from "react"
 import { Section } from "../../components"
+import styles from "./Header.module.scss"
 
 export const Header = () => {
     return(
-        <div className="fixed top-0 left-0 z-50 bg-white h-20">
-            {/* <Section> */}
+        <div className={styles.header}>
+            <Section>
                 <p>Ecommerce</p>
-            {/* </Section> */}
+            </Section>
         </div>
     )
 }

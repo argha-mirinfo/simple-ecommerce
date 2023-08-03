@@ -7,3 +7,8 @@ export interface Product {
     image: string;
     rating: Record<string, any>
 }
+
+export interface Category {
+    label: string;
+    value: string;
+}
