@@ -2,9 +2,10 @@ import { APIRequestService } from '../api-request-service';
 
 export class APIDataService {
 
-    GetALLProducts() {
+    GetALLProducts(params: Record<string, any>) {
         return new APIRequestService().GET({
-            URL: '/products'
+            URL: '/products',
+            params
         });
     }
 
@@ -17,6 +18,13 @@ export class APIDataService {
     GetALLCategory() {
         return new APIRequestService().GET({
             URL: '/products/categories'
+        });
+    }
+
+    GetProductByCategory(URL: string, params: Record<string, any>) {
+        return new APIRequestService().GET({
+            URL,
+            params
         });
     }
 

@@ -23,7 +23,7 @@ export const CartCard: React.FC<CartCardProps> = ({ product }) => {
 
     const handleRemovingProduct = (selectedProduct: ProductWithQuantity) => {
         dispatch(removeProduct({ productId: selectedProduct.id }))
-    } 
+    }
 
     return (
         <div className='border border-gray-300 p-4 my-4'>
@@ -34,7 +34,7 @@ export const CartCard: React.FC<CartCardProps> = ({ product }) => {
                 <div className='flex justify-between items-center w-5/6 ml-5'>
                     <div>
                         <Link href={`/product/${product.id}`}>
-                            <p>{product.title}</p>
+                            <p className='text-blue-500'>{product.title}</p>
                         </Link>
                         <p>Quantity: {product.quantity}</p>
                         <div className='flex'>

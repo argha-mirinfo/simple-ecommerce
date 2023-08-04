@@ -5,6 +5,7 @@ import { Layout } from "../page-layout"
 import { RootState } from "../store/rootState"
 import { CartCard } from "../components"
 import { setCartArrayFromLocalStorage, removeAllProduct } from "../store/cartSlice"
+import Head from "next/head"
 
 const CartPage = () => {
 
@@ -22,35 +23,40 @@ const CartPage = () => {
     }
 
     return (
-        <Layout>
-            <Section>
-                <div className='grid grid-cols-4'>
+        <>
+            <Head>
+                <title>Cart</title>
+            </Head>
+            <Layout>
+                <Section>
+                    <div className='grid grid-cols-4'>
 
-                    <div className="col-span-4 md:col-span-3 lg:col-span-2 ">
-                        {
-                            cartArray.length ? (
-                                <>
-                                    {
-                                        cartArray.map((product, index) => (
-                                            <CartCard {...{ product }} key={index} />))
-                                    }
-                                    <div className="flex justify-between">
-                                        <button className="p-4 bg-red-900 text-white" onClick={handleRemoveAllProduct}>remove all</button>
-                                        <div>
-                                            Total Price: {cartArray.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2)}
+                        <div className="col-span-4 md:col-span-3 lg:col-span-2 ">
+                            {
+                                cartArray.length ? (
+                                    <>
+                                        {
+                                            cartArray.map((product, index) => (
+                                                <CartCard {...{ product }} key={index} />))
+                                        }
+                                        <div className="flex justify-between">
+                                            <button className="p-4 bg-red-900 text-white" onClick={handleRemoveAllProduct}>remove all</button>
+                                            <div>
+                                                Total Price: {cartArray.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2)}
+                                            </div>
                                         </div>
-                                    </div>
-                                </>
-                            )
-                                : (
-                                    <p>No products in the cart</p>
+                                    </>
                                 )
-                        }
-                    </div>
+                                    : (
+                                        <p>No products in the cart</p>
+                                    )
+                            }
+                        </div>
 
-                </div>
-            </Section>
-        </Layout>
+                    </div>
+                </Section>
+            </Layout>
+        </>
     )
 }
 

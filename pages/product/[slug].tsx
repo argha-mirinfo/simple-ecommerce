@@ -7,6 +7,7 @@ import { Layout } from "../../page-layout";
 import { APIDataService } from "../../service-pattern";
 import { setCartArrayFromLocalStorage, setCartArrayFromIndividualProduct } from "../../store/cartSlice";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 
 interface ProductPageProps {
@@ -63,31 +64,36 @@ const ProductPage: NextPage<ProductPageProps> = ({ product }) => {
     }
 
     return (
-        <Layout>
-            <Section>
-                <div className=''>
+        <>
+            <Head>
+                <title>{component_product.title}</title>
+            </Head>
+            <Layout>
+                <Section>
+                    <div className=''>
 
-                </div>
-                <div className='grid grid-cols-1 md:grid-cols-3 gap-5 mt-5'>
-                    <div className="col-span-1">
-                        <img src={component_product.image} alt="product-image" className='w-full h-56 object-contain' />
                     </div>
-                    <div>
-                        <p>{component_product.title}</p>
-                        <p className="mt-5">{component_product.description}</p>
-                        <p className="mt-5">৳ {component_product.price}</p>
-
-                        <div className='flex mt-5'>
-                            <button className='w-1/4 bg-red-500 text-white' onClick={handleDecrease}>-</button>
-                            <p className='w-2/4 flex justify-center'>{component_product.quantity}</p>
-                            <button className='w-1/4 bg-green-500' onClick={handleIncrease}>+</button>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-5 mt-5'>
+                        <div className="col-span-1">
+                            <img src={component_product.image} alt="product-image" className='w-full h-56 object-contain' />
                         </div>
+                        <div>
+                            <p>{component_product.title}</p>
+                            <p className="mt-5">{component_product.description}</p>
+                            <p className="mt-5">৳ {component_product.price}</p>
 
-                        <button className='w-full flex justify-center items-center bg-green-500 p-2 mt-10' onClick={handleAddingProductToCart}>{productInCart?.quantity >= 1 ? "Already Added. Add MORE!!" : "Add to Cart"}</button>
+                            <div className='flex mt-5'>
+                                <button className='w-1/4 bg-red-500 text-white' onClick={handleDecrease}>-</button>
+                                <p className='w-2/4 flex justify-center'>{component_product.quantity}</p>
+                                <button className='w-1/4 bg-green-500' onClick={handleIncrease}>+</button>
+                            </div>
+
+                            <button className='w-full flex justify-center items-center bg-green-500 p-2 mt-10' onClick={handleAddingProductToCart}>{productInCart?.quantity >= 1 ? "Already Added. Add MORE!!" : "Add to Cart"}</button>
+                        </div>
                     </div>
-                </div>
-            </Section>
-        </Layout>
+                </Section>
+            </Layout>
+        </>
     )
 }
 

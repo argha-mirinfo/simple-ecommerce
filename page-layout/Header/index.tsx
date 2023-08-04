@@ -7,12 +7,14 @@ export const Header = () => {
     return (
         <div className={styles.header}>
             <Section>
-                <Link href="/">
-                    <p>Ecommerce</p>
-                </Link>
-                <Link href="/cart">
-                    <p>cart</p>
-                </Link>
+                <div className="flex items-center justify-center h-full">
+                    <Link href="/">
+                        <p className="text-lg">Home</p>
+                    </Link>
+                    <Link href="/cart">
+                        <p className="text-lg" style={{ marginLeft: "30px" }}>Cart</p>
+                    </Link>
+                </div>
             </Section>
         </div>
     )
