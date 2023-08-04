@@ -1,12 +1,18 @@
+import Link from "next/link"
 import React from "react"
 import { Section } from "../../components"
 import styles from "./Header.module.scss"
 
 export const Header = () => {
-    return(
+    return (
         <div className={styles.header}>
             <Section>
-                <p>Ecommerce</p>
+                <Link href="/">
+                    <p>Ecommerce</p>
+                </Link>
+                <Link href="/cart">
+                    <p>cart</p>
+                </Link>
             </Section>
         </div>
     )

@@ -10,10 +10,6 @@ interface ProductCardProps {
     product: ProductWithQuantity;
 }
 
-interface CartState {
-    cartArray: ProductWithQuantity[];
-}
-
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     const dispatch = useDispatch()
