@@ -25,6 +25,18 @@ const cartSlice = createSlice({
             localStorage.setItem("cartArray", JSON.stringify(state.cartArray));
         },
 
+        setCartArrayFromIndividualProduct: (state, action: PayloadAction<{ product: ProductWithQuantity }>) => {
+            const { product } = action.payload;
+            const existingProduct = state.cartArray.find(item => item.id === product.id);
+            if (existingProduct) {
+                existingProduct.quantity = product.quantity;
+            } else {
+                state.cartArray.push(product);
+            }
+
+            localStorage.setItem("cartArray", JSON.stringify(state.cartArray));
+        },
+
         setCartArrayFromLocalStorage: (state, action: PayloadAction<{ products: ProductWithQuantity[] }>) => {
             const { products } = action.payload;
             state.cartArray = products
@@ -64,6 +76,6 @@ const cartSlice = createSlice({
     }
 })
 
-export const { setCartArray, increaseProductQuantity, decreaseProductQuantity, setCartArrayFromLocalStorage } = cartSlice.actions
+export const { setCartArray, increaseProductQuantity, decreaseProductQuantity, setCartArrayFromLocalStorage, setCartArrayFromIndividualProduct } = cartSlice.actions
 
 export default cartSlice.reducer

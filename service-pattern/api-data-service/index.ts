@@ -8,6 +8,12 @@ export class APIDataService {
         });
     }
 
+    GetSingleProduct(URL: string) {
+        return new APIRequestService().GET({
+            URL
+        });
+    }
+
     GetALLCategory() {
         return new APIRequestService().GET({
             URL: '/products/categories'
