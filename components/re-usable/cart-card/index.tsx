@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { ProductWithQuantity } from '../../../interfaces';
-import { decreaseProductQuantity, increaseProductQuantity } from '../../../store/cartSlice';
+import { decreaseProductQuantity, increaseProductQuantity, removeProduct } from '../../../store/cartSlice';
 
 interface CartCardProps {
     product: ProductWithQuantity;
@@ -14,14 +14,16 @@ export const CartCard: React.FC<CartCardProps> = ({ product }) => {
 
 
     const handleIncreasingProductQuantity = (selectedProduct: ProductWithQuantity) => {
-        // dispatch(updateProductQuantity({ productId: selectedProduct.id, type: "increase" }));
         dispatch(increaseProductQuantity({ productId: selectedProduct.id }))
     }
 
     const handleDecreasingProductQuantity = (selectedProduct: ProductWithQuantity) => {
-        // dispatch(updateProductQuantity({ productId: selectedProduct.id, type: "decrease" }));
         dispatch(decreaseProductQuantity({ productId: selectedProduct.id }))
     }
+
+    const handleRemovingProduct = (selectedProduct: ProductWithQuantity) => {
+        dispatch(removeProduct({ productId: selectedProduct.id }))
+    } 
 
     return (
         <div className='border border-gray-300 p-4 my-4'>
@@ -38,6 +40,7 @@ export const CartCard: React.FC<CartCardProps> = ({ product }) => {
                         <div className='flex'>
                             <button className='w-1/4 bg-red-500 text-white' onClick={() => handleDecreasingProductQuantity(product)}>-</button>
                             <button className='w-1/4 bg-green-500' onClick={() => handleIncreasingProductQuantity(product)}>+</button>
+                            <button className='w-1/4 bg-red-800 ml-4' onClick={() => handleRemovingProduct(product)}>X</button>
                         </div>
                     </div>
 
