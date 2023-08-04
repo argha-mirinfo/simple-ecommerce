@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react'
 import Link from 'next/link';
 import { ProductWithQuantity } from '../../../interfaces';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCartArray } from '../../../store/cartSlice';
+import { setCartArray, increaseProductQuantity, decreaseProductQuantity } from '../../../store/cartSlice';
 import { RootState } from '../../../store/rootState';
 import { updateProductQuantity } from '../../../store/allProductSlice';
 
@@ -25,10 +25,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }, [cartArray])
 
     const handleAddingProductToCart = (selectedProduct: ProductWithQuantity) => {
-
-        dispatch(updateProductQuantity({ productId: selectedProduct.id }));
-
+        dispatch(updateProductQuantity({ productId: selectedProduct.id, type: "increase" }));
         dispatch(setCartArray({ product: selectedProduct }))
+    }
+
+    const handleIncreasingProductQuantity = (selectedProduct: ProductWithQuantity) => {
+        dispatch(updateProductQuantity({ productId: selectedProduct.id, type: "increase" }));
+        dispatch(increaseProductQuantity({ productId: selectedProduct.id }))
+    }
+
+    const handleDecreasingProductQuantity = (selectedProduct: ProductWithQuantity) => {
+        dispatch(updateProductQuantity({ productId: selectedProduct.id, type: "decrease" }));
+        dispatch(decreaseProductQuantity({ productId: selectedProduct.id }))
     }
 
     return (
@@ -42,7 +50,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 </Link>
                 <p className='text-lg leading-6 font-bold text-amber-400 mt-1'>৳ {product.price}</p>
             </div>
-            <button className='w-full flex justify-center items-center bg-red-500 p-2' onClick={() => handleAddingProductToCart(product)}>Add to Cart</button>
+            {
+                product.quantity === 0 ? (
+                    <button className='w-full flex justify-center items-center bg-red-500 p-2' onClick={() => handleAddingProductToCart(product)}>Add to Cart</button>
+                ) : (
+                    <div className='flex'>
+                        <button className='w-1/4 bg-red-500 text-white' onClick={() => handleDecreasingProductQuantity(product)}>-</button>
+                        <p className='w-2/4 flex justify-center'>{product.quantity}</p>
+                        <button className='w-1/4 bg-green-500' onClick={() => handleIncreasingProductQuantity(product)}>+</button>
+                    </div>
+                )
+            }
         </div>
     )
 }

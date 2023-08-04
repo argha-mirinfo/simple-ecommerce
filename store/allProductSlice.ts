@@ -16,13 +16,13 @@ const allProductSlice = createSlice({
         setAllProductArray: (state, action) => {
             state.allProductArray = action.payload
         },
-        updateProductQuantity: (state, action: PayloadAction<{ productId: number }>) => {
-            const { productId } = action.payload;
+        updateProductQuantity: (state, action: PayloadAction<{ productId: number, type: string }>) => {
+            const { productId, type } = action.payload;
             state.allProductArray = state.allProductArray.map((product) => {
                 if (productId === product.id) {
                     return {
                         ...product,
-                        quantity: product.quantity + 1,
+                        quantity: type == "increase" ? product.quantity + 1 : product.quantity - 1,
                     };
                 }
                 return product;

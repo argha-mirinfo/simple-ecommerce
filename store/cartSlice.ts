@@ -22,9 +22,37 @@ const cartSlice = createSlice({
                 state.cartArray.push({ ...product, quantity: 1 });
             }
         },
+
+        increaseProductQuantity: (state, action: PayloadAction<{ productId: number }>) => {
+            const { productId } = action.payload;
+            state.cartArray = state.cartArray.map((product) => {
+                if (product.id === productId) {
+                    return {
+                        ...product,
+                        quantity: product.quantity + 1,
+                    };
+                }
+                return product;
+            });
+        },
+
+        decreaseProductQuantity: (state, action: PayloadAction<{ productId: number }>) => {
+            const { productId } = action.payload;
+            state.cartArray = state.cartArray
+                .map((product) => {
+                    if (product.id === productId) {
+                        return {
+                            ...product,
+                            quantity: product.quantity - 1,
+                        };
+                    }
+                    return product;
+                })
+                .filter((product) => product.quantity > 0);
+        },
     }
 })
 
-export const { setCartArray } = cartSlice.actions
+export const { setCartArray, increaseProductQuantity, decreaseProductQuantity } = cartSlice.actions
 
 export default cartSlice.reducer
