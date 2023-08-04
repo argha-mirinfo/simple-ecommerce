@@ -4,14 +4,18 @@ import { Section } from "../components"
 import { Layout } from "../page-layout"
 import { RootState } from "../store/rootState"
 import { CartCard } from "../components"
+import { setCartArrayFromLocalStorage } from "../store/cartSlice"
 
 const CartPage = () => {
+
+    const dispatch = useDispatch()
 
     const { cartArray } = useSelector((state: RootState) => state.cart)
 
     useEffect(() => {
-        console.log("cartArray", cartArray)
-    }, [cartArray])
+        const cartArrayFromLocalStorage = JSON.parse(localStorage.getItem("cartArray") || "[]");
+        dispatch(setCartArrayFromLocalStorage({ products: cartArrayFromLocalStorage }))
+    }, [])
 
     return (
         <Layout>
@@ -20,9 +24,11 @@ const CartPage = () => {
 
                     <div className="col-span-4 md:col-span-3 lg:col-span-2 ">
                         {
-                            cartArray.map((product, index) => (
+                            cartArray.length ? cartArray.map((product, index) => (
                                 <CartCard {...{ product }} key={index} />
-                            ))
+                            )) : (
+                                <p>No products in the cart</p>
+                            )
                         }
                     </div>
 

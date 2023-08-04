@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo } from 'react'
+import React from 'react'
 import Link from 'next/link';
 import { ProductWithQuantity } from '../../../interfaces';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCartArray, increaseProductQuantity, decreaseProductQuantity } from '../../../store/cartSlice';
-import { RootState } from '../../../store/rootState';
 import { updateProductQuantity } from '../../../store/allProductSlice';
 
 interface ProductCardProps {
@@ -13,12 +12,6 @@ interface ProductCardProps {
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     const dispatch = useDispatch()
-
-    const { cartArray } = useSelector((state: RootState) => state.cart)
-
-    useMemo(() => {
-        console.log("cartarray", cartArray)
-    }, [cartArray])
 
     const handleAddingProductToCart = (selectedProduct: ProductWithQuantity) => {
         dispatch(updateProductQuantity({ productId: selectedProduct.id, type: "increase" }));
@@ -52,7 +45,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 ) : (
                     <div className='flex'>
                         <button className='w-1/4 bg-red-500 text-white' onClick={() => handleDecreasingProductQuantity(product)}>-</button>
-                        <p className='w-2/4 flex justify-center'>{product.quantity}</p>
+                        <p className='w-2/4 flex justify-center'>{product.quantity} in cart</p>
                         <button className='w-1/4 bg-green-500' onClick={() => handleIncreasingProductQuantity(product)}>+</button>
                     </div>
                 )

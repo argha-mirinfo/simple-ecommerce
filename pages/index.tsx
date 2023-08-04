@@ -6,10 +6,11 @@ import { Section } from '../components'
 import { Layout } from '../page-layout'
 import { Category } from '../interfaces'
 import Select from 'react-select'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect } from 'react'
 import { setAllProductArray } from '../store/allProductSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../store/rootState'
+import { setCartArrayFromLocalStorage } from '../store/cartSlice'
 
 interface HomeProps {
   allProducts: Product[];
@@ -26,17 +27,16 @@ const Home: NextPage<HomeProps> = ({ allProducts, allCategory }) => {
   const dispatch = useDispatch()
   const { allProductArray } = useSelector((state: RootState) => state.allProduct)
 
+
   useEffect(() => {
+    const cartArrayFromLocalStorage = JSON.parse(localStorage.getItem("cartArray") || "[]");
+    dispatch(setCartArrayFromLocalStorage({products: cartArrayFromLocalStorage}))
     const temp_allProducts = allProducts.map((product) => ({
       ...product,
-      quantity: 0,
+      quantity: cartArrayFromLocalStorage.find((cartItem: ProductWithQuantity) => cartItem.id === product.id)?.quantity || 0,
     }));
     dispatch(setAllProductArray(temp_allProducts));
   }, [])
-
-  useEffect(() => {
-    console.log("allProductArray", allProductArray)
-  }, [allProductArray])
 
   return (
     <Layout>
@@ -80,7 +80,7 @@ export const getServerSideProps = async () => {
     dataToBeSent.allCategory.push(...allCategoryData.data.map((value: string) => ({ value: value, label: value.charAt(0).toUpperCase() + value.slice(1) })))
   } catch (error) {
     dataToBeSent.allCategory = [];
-    console.log('all products api erorr', error);
+    console.log('all category api erorr', error);
   }
 
   return {

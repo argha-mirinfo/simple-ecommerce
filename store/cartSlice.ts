@@ -21,6 +21,13 @@ const cartSlice = createSlice({
             } else {
                 state.cartArray.push({ ...product, quantity: 1 });
             }
+
+            localStorage.setItem("cartArray", JSON.stringify(state.cartArray));
+        },
+
+        setCartArrayFromLocalStorage: (state, action: PayloadAction<{ products: ProductWithQuantity[] }>) => {
+            const { products } = action.payload;
+            state.cartArray = products
         },
 
         increaseProductQuantity: (state, action: PayloadAction<{ productId: number }>) => {
@@ -34,6 +41,8 @@ const cartSlice = createSlice({
                 }
                 return product;
             });
+
+            localStorage.setItem("cartArray", JSON.stringify(state.cartArray));
         },
 
         decreaseProductQuantity: (state, action: PayloadAction<{ productId: number }>) => {
@@ -49,10 +58,12 @@ const cartSlice = createSlice({
                     return product;
                 })
                 .filter((product) => product.quantity > 0);
+
+            localStorage.setItem("cartArray", JSON.stringify(state.cartArray));
         },
     }
 })
 
-export const { setCartArray, increaseProductQuantity, decreaseProductQuantity } = cartSlice.actions
+export const { setCartArray, increaseProductQuantity, decreaseProductQuantity, setCartArrayFromLocalStorage } = cartSlice.actions
 
 export default cartSlice.reducer
