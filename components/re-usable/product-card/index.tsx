@@ -1,12 +1,36 @@
-import React from 'react'
+import React, { useEffect, useMemo } from 'react'
 import Link from 'next/link';
-import { Product } from '../../../interfaces';
+import { ProductWithQuantity } from '../../../interfaces';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCartArray } from '../../../store/cartSlice';
+import { RootState } from '../../../store/rootState';
+import { updateProductQuantity } from '../../../store/allProductSlice';
 
 interface ProductCardProps {
-    product: Product;
+    product: ProductWithQuantity;
+}
+
+interface CartState {
+    cartArray: ProductWithQuantity[];
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+
+    const dispatch = useDispatch()
+
+    const { cartArray } = useSelector((state: RootState) => state.cart)
+
+    useMemo(() => {
+        console.log("cartarray", cartArray)
+    }, [cartArray])
+
+    const handleAddingProductToCart = (selectedProduct: ProductWithQuantity) => {
+
+        dispatch(updateProductQuantity({ productId: selectedProduct.id }));
+
+        dispatch(setCartArray({ product: selectedProduct }))
+    }
+
     return (
         <div className=' border border-gray-300'>
             <Link href={`/product/${product.id}`}>
@@ -18,6 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 </Link>
                 <p className='text-lg leading-6 font-bold text-amber-400 mt-1'>৳ {product.price}</p>
             </div>
+            <button className='w-full flex justify-center items-center bg-red-500 p-2' onClick={() => handleAddingProductToCart(product)}>Add to Cart</button>
         </div>
     )
 }

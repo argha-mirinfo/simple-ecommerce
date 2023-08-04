@@ -8,6 +8,10 @@ export interface Product {
     rating: Record<string, any>
 }
 
+export interface ProductWithQuantity extends Product {
+    quantity: number;
+}
+
 export interface Category {
     label: string;
     value: string;
